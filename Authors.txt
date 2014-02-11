@@ -18,3 +18,4 @@ Main programmer and founder
 
 Contributors
 ------------
+Lefebure brian <lefebure.brian@gmail.com>
