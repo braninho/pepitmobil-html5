@@ -22,6 +22,7 @@ m.math.compterecrire.View = function (mdl, div) {
         if (model.isOkResult()) {
             module.next();
         }
+
     };
 
 // private methods
