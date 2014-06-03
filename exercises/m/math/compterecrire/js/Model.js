@@ -39,7 +39,7 @@ m.math.compterecrire.Model = function () {
 
 // private methods
     var init = function() {
-        tab = new Array();
+        tab = [];
         console.log(nbPommes);
         for(var i=1;i<=nbPommes;i++){
             do{

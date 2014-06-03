@@ -29,13 +29,13 @@ m.math.compterecrire.View = function (mdl, div) {
         var tab = model.getTab();
         var context = canvas[0].getContext("2d");
         console.log(model.getTab().length);
-        for(var i=1;i<=model.getTab().length;i++){
+        for(var i=0;i<model.getTab().length;i++){
 
             var img = new Image();
             img.src = 'exercises/m/math/compterecrire/img/pommes.png';
 
-            var x = Math.floor(tab[i].x1);//(model.getTab().x1)*parseInt(canvas.width));
-            var y = Math.floor(tab[i].y1);//*parseInt(canvas.height));
+            var x = (tab[i].x1)*canvas[0].width;
+            var y = (tab[i].y1)*canvas[0].height;
 
             console.log();
             console.log(x);
