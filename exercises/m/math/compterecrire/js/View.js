@@ -12,6 +12,10 @@ m.math.compterecrire.View = function (mdl, div) {
         controller = new m.math.compterecrire.Controller(model, this);
     };
 
+    this.resize = function(){
+        size_canvas();
+    }
+
     this.next = function () {
         model.next();
 
@@ -28,23 +32,52 @@ m.math.compterecrire.View = function (mdl, div) {
     var affichagePommes  = function(canvas){
         var tab = model.getTab();
         var context = canvas[0].getContext("2d");
+
+        var tailleX = 5;
+        var tailleY = 3;
+        var largueur = canvas[0].width / tailleX;
+        var hauteur = canvas[0].height / tailleY;
+
+        for(var i=1;i<tailleX;i++){
+            context.moveTo(i*largueur,0);
+            context.lineTo(i*largueur,canvas[0].height);
+        }
+        for(var j=1;j<tailleY;j++){
+            context.moveTo(0,j*hauteur);
+            context.lineTo(canvas[0].width,j*hauteur);
+        }
+
         console.log(model.getTab().length);
         for(var i=0;i<model.getTab().length;i++){
 
             var img = new Image();
             img.src = 'exercises/m/math/compterecrire/img/pommes.png';
 
-            var x = (tab[i].x1)*canvas[0].width;
-            var y = (tab[i].y1)*canvas[0].height;
-
             console.log();
-            console.log(x);
-            console.log(y);
+            console.log(tab[i].x1);
+            console.log(tab[i].y1);
 
-            context.drawImage(img, x, y, 80, 50);
+            context.drawImage(img, tab[i].x1, tab[i].y1, 60, 50);
             context.stroke();
         }
     };
+
+
+    var size_canvas = function(){
+        var canvas = parseInt($('#cadre').css("width"));
+        var canvas_parent = parseInt($('#cadre').parent().css("width"));
+        var canvas_expected = parseInt(canvas_parent*0.8);
+
+        if(canvas_parent > 537){
+            $('#cadre').css("width","430");
+            $('#cadre').css("height","330");
+        }
+        else{
+            $('#cadre').css("width",canvas_expected);
+            $('#cadre').css("height",parseInt(canvas_expected/1.30));
+        }
+
+    }
 
     var init_div = function (view) {
         operation(view);
@@ -53,96 +86,53 @@ m.math.compterecrire.View = function (mdl, div) {
 
     var operation = function(view){
         //md et lg device
-        var BigCadre_md_lg = $('<div/>',{
-            class:'visible-md visible-lg',
-            id:'BigCadre-xs-sm',
-            style:'background:url("exercises/m/math/compterecrire/img/fond_complet.png") no-repeat center; min-height:654px;'
+        var bigCadre = $('<div/>',{
+            class:'visible-md visible-lg visible-xs visible-sm',
+            id:'bigCadre',
+            style:'background:url("exercises/m/math/compterecrire/img/fond_complet.png") no-repeat center; min-height:654px; max-width:884px; margin:auto;'
         });
+        bigCadre.appendTo(view);
 
         //cadre pour les pommes
-        var cadre_md_lg=$('<canvas/>',{
-            class:'visible-md visible-lg',
+        var cadre=$('<canvas/>',{
+            class:'visible-md visible-lg visible-xs visible-sm',
             id:'cadre',
-            style:' height:330px; width:430px; margin-left:140px;float:left;margin-top:80px;position:relative'
+            style:'border:1px solid black; width:430px; height:330px; margin-left:7%; float:left; margin-top:8%; position:relative;'
         });
-        cadre_md_lg.appendTo(BigCadre_md_lg);
+        cadre.appendTo(bigCadre);
 
-        affichagePommes(cadre_md_lg);
+        size_canvas();
+        affichagePommes(cadre);
+
 
         //cadres avec les input
-        var smallCadre_md_lg = $('<div/>',{
-            class:'visible-md visible-lg',
-            id:'smallCadre-md-lg',
-            style:'float:right; background:rgba(21,21,21,0.5); color:white; padding: 5px; margin-right:75px ; border-radius : 5px;'
+        var smallCadre = $('<div/>',{
+            class:'visible-md visible-lg visible-xs visible-sm',
+            id:'smallCadre',
+            style:'float:right; background:rgba(21,21,21,0.5); color:white; padding:0.5%; margin-right:3%; margin-top:3%; border-radius:5px;'
         });
+        smallCadre.appendTo(bigCadre);
 
         var textBefore_md_lg=$('<p/>',{
-            class:'visible-md visible-lg',
-            id:'textBefore-md-lg',
+            class:'visible-md visible-lg visible-xs visible-sm',
+            id:'textBefore',
             html:'J\'ai récolté '
         });
-        textBefore_md_lg.appendTo(smallCadre_md_lg);
+        textBefore_md_lg.appendTo(smallCadre);
 
         var input_md_lg = $('<input/>',{
-            class:'visible-md visible-lg',
-            id:'input-md-lg',
+            class:'form-control',
+            id:'input',
             placeholder:'Nombre de pommes'
         });
-        input_md_lg.appendTo(smallCadre_md_lg);
+        input_md_lg.appendTo(smallCadre);
 
         var textAfter_md_lg = $('<p/>',{
-            class:'visible-md visible-lg',
-            id:'textBefore-md-lg',
+            class:'visible-md visible-lg visible-xs visible-sm',
+            id:'textBefore',
             html:'pommes'
         });
-        textAfter_md_lg.appendTo(smallCadre_md_lg);
-
-
-
-        //xs et sm devices
-        var BigCadre_xs_sm = $('<div/>',{
-            class:'visible-xs visible-sm',
-            id:'BigCadre-xs-sm',
-            style:'background:url("exercises/m/math/compterecrire/img/fond_complet.png") no-repeat center; min-height:654px;'
-        });
-
-        //cadre pour les pommes
-        var cadre_xs_sm=$('<canvas/>',{
-            class:'visible-xs visible-sm',
-            id:'cadre-xs-sm',
-            style:' height:330px; width:430px; margin-left:140px;float:left;margin-top:80px;position:relative'
-        });
-        cadre_xs_sm.appendTo(BigCadre_md_lg);
-
-        affichagePommes(cadre_xs_sm);
-
-        //cadres avec les input
-        var smallCadre_xs_sm = $('<div/>',{
-            class:'visible-xs visible-sm',
-            id:'smallCadre-xs-sm',
-            style:'float:right; background:rgba(21,21,21,0.5); color:white; padding: 5px; margin-right:75px ; border-radius : 5px;'
-        });
-
-        var textBefore_xs_sm=$('<p/>',{
-            class:'visible-xs visible-sm',
-            id:'textBefore-xs-sm',
-            html:'J\'ai récolté '
-        });
-        textBefore_xs_sm.appendTo(smallCadre_xs_sm);
-
-        var input_xs_sm = $('<input/>',{
-            class:'visible-xs visible-sm',
-            id:'input-xs-sm',
-            placeholder:'Nombre de pommes'
-        });
-        input_xs_sm.appendTo(smallCadre_xs_sm);
-
-        var textAfter_xs_sm = $('<p/>',{
-            class:'visible-xs visible-sm',
-            id:'textBefore-xs-sm',
-            html:'pommes'
-        });
-        textAfter_xs_sm.appendTo(smallCadre_xs_sm);
+        textAfter_md_lg.appendTo(smallCadre);
 
         var button = $('<a/>', {
             href: '#',
@@ -151,14 +141,7 @@ m.math.compterecrire.View = function (mdl, div) {
             role: 'button',
             html: 'Valider'
         });
-        button.appendTo(smallCadre_md_lg);
-        button.appendTo(smallCadre_xs_sm);
-
-        smallCadre_md_lg.appendTo(BigCadre_md_lg);
-        BigCadre_md_lg.appendTo(div);
-
-        smallCadre_xs_sm.appendTo(BigCadre_xs_sm);
-        BigCadre_xs_sm.appendTo(div);
+        button.appendTo(smallCadre);
     }
 
 // private attributes

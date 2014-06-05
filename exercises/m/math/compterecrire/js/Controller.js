@@ -12,6 +12,9 @@ m.math.compterecrire.Controller = function (m, v) {
                 view.error();
             }
         });
+        $(window).resize(function(){
+           view.resize();
+        });
     };
 
 // private methods
