@@ -8,7 +8,13 @@ m.math.compterecrire.Module = function (e) {
     };
 
     this.buildQuestion = function (div, currentExercise, currentModule) {
-        view = new m.math.compterecrire.View(this, div);
+        if(currentExercise == 1){
+            view = new m.math.compterecrire.View(this, div,5);
+        }else if(currentExercise == 2){
+            view = new m.math.compterecrire.View(this, div,10);
+        }else if(currentExercise == 3){
+            view = new m.math.compterecrire.View(this, div,20);
+        }
         questionIndex = 1;
         currentScore = this.getQuestionScore(currentExercise, currentModule);
     };
@@ -25,8 +31,8 @@ m.math.compterecrire.Module = function (e) {
 
     this.getExerciseList = function () {
         return {
-            title: [ 'Exercice 1' ],
-            subTitle: [ ]
+            title: [ 'Exercice 1', 'Exercice 2', 'Exercice 3'],
+            subTitle: ['De 1 à 5', 'De 1 à 10', 'De 1 à 20' ]
         };
     };
 
@@ -41,7 +47,7 @@ m.math.compterecrire.Module = function (e) {
     this.getModuleList = function (currentExercise) {
         return {
             title: [ 'Module 1'],
-            subTitle: [ ]
+            subTitle: ['']
         };
     };
 
@@ -58,7 +64,7 @@ m.math.compterecrire.Module = function (e) {
     };
 
     this.getQuestionScore = function (currentExercise, currentModule) {
-        return 0;  // total = 1000 pts
+        return 4;  // total = 1000 pts
     };
 
     this.getScore = function () {
@@ -79,7 +85,7 @@ m.math.compterecrire.Module = function (e) {
 
     this.initScore = function () {
         // un exercice à un module
-        return new Score([ [ -1 ] ]);
+        return new Score([ [ -1 ], [ -1 ], [ -1 ] ]);
     };
 
     this.next = function () {

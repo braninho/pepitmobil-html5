@@ -1,13 +1,14 @@
-m.math.compterecrire.View = function (mdl, div) {
+m.math.compterecrire.View = function (mdl, div, maxPommes) {
 
 // public methods
     this.error = function () {
         module.error();
+        bootstrap_alert.info(module.getWrongResponseMessage(),'');
     };
 
     this.init = function (mdl, view) {
         module = mdl;
-        model = new m.math.compterecrire.Model();
+        model = new m.math.compterecrire.Model(maxPommes);
         init_div(view);
         controller = new m.math.compterecrire.Controller(model, this);
     };
@@ -18,8 +19,10 @@ m.math.compterecrire.View = function (mdl, div) {
 
     this.next = function () {
         model.next();
-
         this.update();
+        $('input').val('');
+        affichagePommes(model.getIndex());
+        size_canvas();
     };
 
     this.update = function () {
@@ -29,46 +32,50 @@ m.math.compterecrire.View = function (mdl, div) {
     };
 
 // private methods
-    var affichagePommes  = function(canvas){
-        var tab = model.getTab();
-        var context = canvas[0].getContext("2d");
+    var affichagePommes  = function(index){
+        var c = $('#cadre')[0];
+        var tab = model.getTabPomme();
+        var context = c.getContext("2d");
+        var width = parseInt($('#cadre').css("width"));
+        var height = parseInt($('#cadre').css("height"));
+        var largeur = width / model.getTailleX();
+        var hauteur = height / model.getTailleY();
 
-        var tailleX = 5;
-        var tailleY = 3;
-        var largueur = canvas[0].width / tailleX;
-        var hauteur = canvas[0].height / tailleY;
+        console.log("canvas css width "+ c.width);//parseInt($('#cadre').css("width")));
+        console.log(largeur);
+        console.log("canvas css height "+height);
 
-        for(var i=1;i<tailleX;i++){
-            context.moveTo(i*largueur,0);
-            context.lineTo(i*largueur,canvas[0].height);
+        context.clearRect(0,0,width,height);
+
+        for(var i=1;i<model.getTailleX();i++){
+            context.moveTo(i*largeur,0);
+            context.lineTo(i*largeur,height);
         }
-        for(var j=1;j<tailleY;j++){
+        for(var j=1;j<model.getTailleY();j++){
             context.moveTo(0,j*hauteur);
-            context.lineTo(canvas[0].width,j*hauteur);
+            context.lineTo(width,j*hauteur);
         }
 
-        console.log(model.getTab().length);
-        for(var i=0;i<model.getTab().length;i++){
-
+        for(var i=0;i<model.getTabExercice(index).length;i++){
             var img = new Image();
             img.src = 'exercises/m/math/compterecrire/img/pommes.png';
 
-            console.log();
-            console.log(tab[i].x1);
-            console.log(tab[i].y1);
-
-            context.drawImage(img, tab[i].x1, tab[i].y1, 60, 50);
+            // img.onload = function(tab){
+            console.log("pommeX "+i+" : "+tab[i].x1);
+            console.log("pommeY "+i+" : "+tab[i].y1);
+            context.drawImage(img, tab[i].x1*largeur, tab[i].y1*hauteur, largeur, hauteur);
             context.stroke();
+            // }
+        //context.stroke();
         }
     };
-
 
     var size_canvas = function(){
         var canvas = parseInt($('#cadre').css("width"));
         var canvas_parent = parseInt($('#cadre').parent().css("width"));
-        var canvas_expected = parseInt(canvas_parent*0.8);
+        var canvas_expected = parseInt(canvas_parent*0.7);
 
-        if(canvas_parent > 537){
+        if(canvas_parent > 615){
             $('#cadre').css("width","430");
             $('#cadre').css("height","330");
         }
@@ -76,7 +83,6 @@ m.math.compterecrire.View = function (mdl, div) {
             $('#cadre').css("width",canvas_expected);
             $('#cadre').css("height",parseInt(canvas_expected/1.30));
         }
-
     }
 
     var init_div = function (view) {
@@ -97,13 +103,14 @@ m.math.compterecrire.View = function (mdl, div) {
         var cadre=$('<canvas/>',{
             class:'visible-md visible-lg visible-xs visible-sm',
             id:'cadre',
-            style:'border:1px solid black; width:430px; height:330px; margin-left:7%; float:left; margin-top:8%; position:relative;'
+            style:'border:1px solid black; width:430; height:330; margin-left:7%; float:left; margin-top:8%; position:relative;'
         });
         cadre.appendTo(bigCadre);
 
-        size_canvas();
-        affichagePommes(cadre);
+        console.log($('#cadre').css("width"));
 
+        affichagePommes(model.getIndex());
+        size_canvas();
 
         //cadres avec les input
         var smallCadre = $('<div/>',{

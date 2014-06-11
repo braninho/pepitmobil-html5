@@ -1,9 +1,13 @@
-m.math.compterecrire.Model = function () {
+m.math.compterecrire.Model = function (nbPommes) {
 
 // public methods
     this.check = function() {
-        okResult = true;
-        return true;
+        if($('input').val() == nbPommesCajeau){
+            okResult = true;
+        }else{
+            okResult = false;
+        }
+        return okResult;
     };
 
     this.isOkResult = function() {
@@ -12,18 +16,12 @@ m.math.compterecrire.Model = function () {
 
     this.next = function() {
         okResult = false;
+        index++;
+        nbPommesCajeau = 0;
     };
 
     this.reset = function() {
     };
-
-    this.getNbPommes = function(){
-        return nbPommes;
-    }
-
-    this.setNbPommes = function(nbPomme){
-        this.nbPommes = nbPomme;
-    }
 
     this.getCanvas_x = function(){
         return canvas_x;
@@ -33,8 +31,28 @@ m.math.compterecrire.Model = function () {
         return canvas_y;
     }
 
-    this.getTab = function(){
-        return tab;
+    this.getTabPomme = function(){
+        return tabPomme;
+    }
+
+    this.getTabExercice = function(index){
+        return tabExercice[index];
+    }
+
+    this.getIndex = function(){
+        return index;
+    }
+
+    this.getTailleX = function(){
+        return tailleX;
+    }
+
+    this.getTailleY = function(){
+        return tailleY;
+    }
+
+    this.getNbPommeCajeau = function(){
+        return nbPommesCajeau;
     }
 
     var isintab = function(tab,x,y){
@@ -47,15 +65,29 @@ m.math.compterecrire.Model = function () {
     }
 
 // private methods
-    var init = function() {
-        tab = [];
-        console.log(nbPommes);
-        for(var i=1;i<=nbPommes;i++){
-            do{
-                var canvas_x = Math.floor(Math.random()*4)*60;
-                var canvas_y = Math.floor(Math.random()*2)*50;
-            }while(isintab(tab,canvas_x,canvas_y) == true);
-            tab.push({x1 : canvas_x, y1 : canvas_y, x2 : canvas_x+60/$('#bigCadre').css("width"), y2 : canvas_y+50/$('#bigCadre').css("height")});
+    var init = function(){
+        index = 0;
+        if(nbPommes == 5 || nbPommes == 10){
+            tailleX = 5;
+            tailleY = 3;
+        }else{
+            tailleX = 5;
+            tailleY = 4;
+        }
+        tabExercice = [];
+        console.log("nombre de pommes : "+nbPommes);
+        for(var i = 0;i<5;i++){
+
+            tabPomme = [];
+            for(var j=1;j<=nbPommes;j++){
+
+                do{
+                    var canvas_x = Math.floor((Math.random()*(tailleX-1)));
+                    var canvas_y = Math.floor((Math.random()*(tailleY-1)));
+                }while(isintab(tabPomme,canvas_x,canvas_y) == true);
+            tabPomme.push({x1 : canvas_x, y1 : canvas_y});
+            }
+        tabExercice.push(tabPomme);
         }
     };
 
@@ -64,9 +96,12 @@ m.math.compterecrire.Model = function () {
     var okResult;
     var canvas_x;
     var canvas_y;
-    var nbPommes = 5;
-    var tab;
-
+    var nbPommesCajeau = 5;
+    var tailleX;
+    var tailleY;
+    var tabPomme;
+    var tabExercice;
+    var index;
 
     init();
 };
