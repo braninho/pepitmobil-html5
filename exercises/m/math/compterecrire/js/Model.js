@@ -1,4 +1,4 @@
-m.math.compterecrire.Model = function (nbPommes) {
+m.math.compterecrire.Model = function (maxPommes) {
 
 // public methods
     this.check = function() {
@@ -67,7 +67,7 @@ m.math.compterecrire.Model = function (nbPommes) {
 // private methods
     var init = function(){
         index = 0;
-        if(nbPommes == 5 || nbPommes == 10){
+        if(maxPommes == 5 || maxPommes == 10){
             tailleX = 5;
             tailleY = 3;
         }else{
@@ -75,12 +75,11 @@ m.math.compterecrire.Model = function (nbPommes) {
             tailleY = 4;
         }
         tabExercice = [];
-        console.log("nombre de pommes : "+nbPommes);
+        console.log("nombre de pommes : "+maxPommes);
         for(var i = 0;i<5;i++){
 
             tabPomme = [];
-            for(var j=1;j<=nbPommes;j++){
-
+            for(var j=1;j<=maxPommes;j++){
                 do{
                     var canvas_x = Math.floor((Math.random()*(tailleX-1)));
                     var canvas_y = Math.floor((Math.random()*(tailleY-1)));
@@ -89,6 +88,7 @@ m.math.compterecrire.Model = function (nbPommes) {
             }
         tabExercice.push(tabPomme);
         }
+        console.log("taille tabExercice "+tabExercice.length)
     };
 
 
@@ -96,7 +96,7 @@ m.math.compterecrire.Model = function (nbPommes) {
     var okResult;
     var canvas_x;
     var canvas_y;
-    var nbPommesCajeau = 5;
+    var nbPommesCajeau = maxPommes;
     var tailleX;
     var tailleY;
     var tabPomme;

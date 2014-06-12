@@ -43,7 +43,7 @@ m.math.compterecrire.Controller = function (m, v) {
                     if(Math.floor(y/2.2) > model.getTabPomme()[i].y1){
                         console.log("clickx : "+Math.floor(x/1.43)+" , clicky : "+Math.floor(y/2.2));
                         console.log("pomme clicker :  x = "+model.getTabPomme()[i].x1+" et y = "+model.getTabPomme()[i].y1);
-                        model.getTabPomme().splice(i,1);
+                       // model.getTabPomme().splice(i,1);
 
                         view.update();
                     }

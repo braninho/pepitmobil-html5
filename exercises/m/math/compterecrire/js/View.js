@@ -38,34 +38,34 @@ m.math.compterecrire.View = function (mdl, div, maxPommes) {
         var context = c.getContext("2d");
         var width = parseInt($('#cadre').css("width"));
         var height = parseInt($('#cadre').css("height"));
-        var largeur = width / model.getTailleX();
-        var hauteur = height / model.getTailleY();
+        var largeur = 300 / model.getTailleX();
+        var hauteur = 150 / model.getTailleY();
 
-        console.log("canvas css width "+ c.width);//parseInt($('#cadre').css("width")));
+        console.log("canvas css width "+ c.width);
         console.log(largeur);
         console.log("canvas css height "+height);
 
         context.clearRect(0,0,width,height);
 
-        for(var i=1;i<model.getTailleX();i++){
+       /* for(var i=1;i<model.getTailleX();i++){
             context.moveTo(i*largeur,0);
             context.lineTo(i*largeur,height);
         }
         for(var j=1;j<model.getTailleY();j++){
             context.moveTo(0,j*hauteur);
             context.lineTo(width,j*hauteur);
-        }
+        }*/
 
         for(var i=0;i<model.getTabExercice(index).length;i++){
             var img = new Image();
             img.src = 'exercises/m/math/compterecrire/img/pommes.png';
 
-            // img.onload = function(tab){
+            //img.onload = function(tab){
             console.log("pommeX "+i+" : "+tab[i].x1);
             console.log("pommeY "+i+" : "+tab[i].y1);
-            context.drawImage(img, tab[i].x1*largeur, tab[i].y1*hauteur, largeur, hauteur);
+            context.drawImage(img, tab[i].x1*largeur, tab[i].y1*hauteur, 60, 50);
             context.stroke();
-            // }
+            //}
         //context.stroke();
         }
     };
@@ -89,7 +89,6 @@ m.math.compterecrire.View = function (mdl, div, maxPommes) {
         operation(view);
     };
 
-
     var operation = function(view){
         //md et lg device
         var bigCadre = $('<div/>',{
@@ -103,20 +102,27 @@ m.math.compterecrire.View = function (mdl, div, maxPommes) {
         var cadre=$('<canvas/>',{
             class:'visible-md visible-lg visible-xs visible-sm',
             id:'cadre',
-            style:'border:1px solid black; width:430; height:330; margin-left:7%; float:left; margin-top:8%; position:relative;'
+            style:'width:430; height:330; margin-left:7%; float:left; margin-top:8%; position:relative;'
         });
         cadre.appendTo(bigCadre);
 
         console.log($('#cadre').css("width"));
-
         affichagePommes(model.getIndex());
         size_canvas();
+
+        //cadre pour le cajeau
+        var cajeau = $('<canvas/>',{
+           class:'visible-mdd visible-lg visible-xs visible-sm',
+           id:'cajeau',
+           style:'width:290px;height:100px;float:left;margin-left:-7%;margin-top:60%;position:relative;'
+        });
+        cajeau.appendTo(bigCadre);
 
         //cadres avec les input
         var smallCadre = $('<div/>',{
             class:'visible-md visible-lg visible-xs visible-sm',
             id:'smallCadre',
-            style:'float:right; background:rgba(21,21,21,0.5); color:white; padding:0.5%; margin-right:3%; margin-top:3%; border-radius:5px;'
+            style:'float:right; background:rgba(21,21,21,0.5); color:white; padding:0.5%; margin-right:1%; margin-top:1%; border-radius:5px;'
         });
         smallCadre.appendTo(bigCadre);
 
@@ -130,6 +136,7 @@ m.math.compterecrire.View = function (mdl, div, maxPommes) {
         var input_md_lg = $('<input/>',{
             class:'form-control',
             id:'input',
+            style:'width:145px;',
             placeholder:'Nombre de pommes'
         });
         input_md_lg.appendTo(smallCadre);

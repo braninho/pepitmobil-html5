@@ -2,6 +2,24 @@ m.math.compterecrire.Module = function (e) {
 
 // public methods
     this.buildExercisePresentation = function (div) {
+
+        div.css({
+            'text-align': 'center',
+            'font-size': '20px',
+            'color': '#ffffff'
+        });
+
+        var title = $('<div/>', {
+            html: "<h1>Compter les pommes et<br>écrire le résultat</h1>",
+            class: 'visible-xs visible-sm visible-md visible-lg'
+        });
+        title.appendTo(div);
+
+        var image = $('<img/>', {
+            style: 'width: 50%',
+            src: 'exercises/m/math/compterecrire/img/pommier.jpg'
+        });
+        image.appendTo(div);
     };
 
     this.buildExplanation = function (div, currentExercise) {
