@@ -55,6 +55,10 @@ m.math.compterecrire.Model = function (maxPommes) {
         return nbPommesCajeau;
     }
 
+    this.setNbPommeCajeau = function(nbPommeCajeau){
+        nbPommesCajeau = nbPommeCajeau;
+    }
+
     var isintab = function(tab,x,y){
         for(var i= 0;i<tab.length;i++){
             if((tab[i].x1 == x) && (tab[i].y1 == y)){
